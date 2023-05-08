@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CruddemoApplication {
 
@@ -19,9 +21,47 @@ public class CruddemoApplication {
 		return runner -> {
 //			createStudent(studentDAO);
 
-//			createMultipleStudents(studentDAO);
-			readStudent(studentDAO);
+			createMultipleStudents(studentDAO);
+//			readStudent(studentDAO);
+//			queryForStudents(studentDAO);
+//			queryForStudentsByLastName(studentDAO);
+//			updateStudent(studentDAO);
+//			deleteStudent(studentDAO);
+//			deleteAllStudents(studentDAO);
 		};
+	}
+
+	private void deleteAllStudents(StudentDAO studentDAO) {
+		int rowsDeleted = studentDAO.deleteAll();
+		System.out.println("Rows deleted " + rowsDeleted);
+	}
+
+	private void deleteStudent(StudentDAO studentDAO) {
+		int studentId = 3;
+		studentDAO.delete(studentId);
+	}
+
+	private void updateStudent(StudentDAO studentDAO) {
+		int studentId = 1;
+		Student myStudent = studentDAO.findById(studentId);
+		myStudent.setFirstName("Scooby");
+		studentDAO.update(myStudent);
+		System.out.println(myStudent);
+	}
+
+	private void queryForStudentsByLastName(StudentDAO studentDAO) {
+		List<Student> theStudents = studentDAO.findByLastName("Mateix");
+		for (Student tempStudent : theStudents) {
+			System.out.println(tempStudent);
+		}
+
+	}
+
+	private void queryForStudents(StudentDAO studentDAO) {
+		List<Student> theStudents = studentDAO.findAll();
+		for (Student tempStudent : theStudents) {
+			System.out.println((tempStudent));
+		}
 	}
 
 	private void readStudent(StudentDAO studentDAO) {
